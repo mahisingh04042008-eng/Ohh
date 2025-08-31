@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Happy Boyfriend Day 💕</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       margin: 0;
@@ -27,17 +28,18 @@
     .container {
       text-align: center;
       z-index: 2;
+      padding: 20px;
     }
 
-    /* ✉️ Prettier Envelope */
+    /* Envelope */
     .envelope {
-      width: 150px;
-      height: 100px;
+      width: 180px;
+      height: 120px;
       background: #ff4da6;
       position: relative;
       margin: auto;
       cursor: pointer;
-      border-radius: 8px;
+      border-radius: 10px;
       animation: bounce 1.5s infinite;
       overflow: hidden;
     }
@@ -46,35 +48,36 @@
       position: absolute;
       top: 0;
       left: 0;
-      border-left: 75px solid transparent;
-      border-right: 75px solid transparent;
-      border-bottom: 50px solid #ff99cc;
+      border-left: 90px solid transparent;
+      border-right: 90px solid transparent;
+      border-bottom: 60px solid #ff99cc;
     }
     .envelope .seal {
-      width: 40px;
-      height: 40px;
+      width: 50px;
+      height: 50px;
       background: #fff;
       border-radius: 50%;
       position: absolute;
-      top: 30px;
-      left: 55px;
+      top: 35px;
+      left: 65px;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 1.5rem;
+      font-size: 1.8rem;
       color: #ff4da6;
-      box-shadow: 0 0 10px rgba(255,0,100,0.4);
+      box-shadow: 0 0 12px rgba(255,0,100,0.4);
     }
     @keyframes bounce {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-12px); }
+      50% { transform: translateY(-14px); }
     }
 
-    /* Popup style */
+    /* Popup + Messages */
     .popup, .questions, .letter, .final, .end {
       display: none;
-      font-size: 1.4rem;
-      margin-top: 20px;
+      font-size: 1.8rem; /* 🔥 bigger */
+      margin-top: 25px;
+      line-height: 1.6;
       animation: fadeInUp 0.8s ease-in-out;
     }
     @keyframes fadeInUp {
@@ -83,13 +86,14 @@
     }
     .popup-card {
       background: #fff;
-      padding: 15px 25px;
+      padding: 18px 28px;
       border-radius: 20px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.15);
       display: inline-block;
-      margin: 10px;
+      margin: 12px;
       color: #ff4da6;
       font-weight: bold;
+      font-size: 1.6rem; /* 🔥 bigger card text */
       transform: scale(0.95);
       transition: 0.3s;
     }
@@ -100,12 +104,12 @@
     .btn {
       background: #ff4da6;
       color: white;
-      padding: 10px 25px;
-      border-radius: 25px;
+      padding: 12px 28px;
+      border-radius: 30px;
       border: none;
       cursor: pointer;
-      margin: 10px;
-      font-size: 1rem;
+      margin: 12px;
+      font-size: 1.3rem; /* 🔥 bigger button text */
       transition: 0.3s;
       box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
@@ -116,7 +120,7 @@
     /* Floating Hearts */
     .heart {
       position: fixed;
-      font-size: 1.8rem;
+      font-size: 2rem;
       animation: float linear infinite;
       z-index: 1;
     }
@@ -128,8 +132,8 @@
     /* Sparkles */
     .sparkle {
       position: fixed;
-      width: 5px;
-      height: 5px;
+      width: 6px;
+      height: 6px;
       background: white;
       border-radius: 50%;
       opacity: 0.7;
@@ -157,12 +161,13 @@
     <!-- Step 4 -->
     <div class="letter" id="letter">
       <p>
-        Happy Boyfriend Day, my love 😚💕. I still can’t believe how lucky I am to have you!!!!!
-        From the day we met, you’ve been nothing but love, care, and happiness for me omggggg i lobeeee you so muchh meree sabseee pyareeeee cuteee bhonduuuuiuuu i lobe you i lobe youuuuuu !!!
-        You’re my comfort, my safe place, and my biggest blessing frrr! 
-        Even from miles apart, you make me feel closer than ever. 
-        I want you to know that I’m so proud to call you mine and I’ll love you more and more every single day cause you deserve everything mere budhe!!!! 
-        Thank you for being the sweetest boyfriend in the world , you are my forever ♾️💕 
+        Happy Boyfriend Day, my love 😚💕.  
+        From the day we met, you’ve been nothing but love, care, and happiness for me omggggg!  
+        I lobe you so muchhh meree sabseee pyareeeee cuteee bhonduuuuiuuu 😭💕  
+        You’re my comfort, my safe place, and my biggest blessing frrr!  
+        Even from miles apart, you make me feel closer than ever.  
+        I’ll love you more and more every single day cause you deserve everything mere budhe!!!!  
+        Thank you for being the sweetest boyfriend in the world, you are my forever ♾️💕 
       </p>
       <button class="btn" onclick="showFinal()">Next ➡️</button>
     </div>
@@ -177,8 +182,8 @@
 
     <!-- Step 6 -->
     <div class="end" id="end">
-      <h2>🌸 HAPPY PATI DIWAS AGAIN SAHU 💕✨</h2>
-      <h3>Daddy lobes you endlessly 💖</h3>
+      <h2 style="font-size: 2rem;">🌸 HAPPY PATI DIWAS AGAIN SAHU 💕✨</h2>
+      <h3 style="font-size: 1.6rem;">Daddy lobes you endlessly 💖</h3>
     </div>
   </div>
 
@@ -216,7 +221,7 @@
         popup.innerHTML = `<div class="popup-card">${popupTexts[popupIndex]}</div>`;
         popup.style.display = "block";
         popupIndex++;
-        setTimeout(showPopups, 2000);
+        setTimeout(showPopups, 2200);
       } else {
         popup.style.display = "none";
         showQuestions();
@@ -261,11 +266,11 @@
         heart.classList.add("heart");
         heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 2 + 1.5) + "rem";
+        heart.style.fontSize = (Math.random() * 2 + 2) + "rem";
         heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
         document.body.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 7000);
-      }, 150);
+      }, 180);
     }
 
     function createSparkles() {
