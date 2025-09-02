@@ -118,16 +118,6 @@
     <!-- Step 0: Intro -->
     <div id="intro" class="popup" style="display:block;">
       <div id="introOverlay"></div>
-      <div class="popup-card">
-        Haaiiiii my babieeee 😘💖<br><br>
-        I have a little secret for you…<br>
-        Something cute, something silly, and something just for YOU mere budheeee!<br><br>
-        Today is a very special day… but shhh 🤫💞<br>
-        I’ve been planning this little surprise for my most handsome, cutest, and perfect Sahu 🥰💖<br>
-        You make me laugh, smile, and feel warm and loved inside, even from miles away 🥹🩷<br>
-        Are you ready for a tiny magical surprise? 💌✨<br><br>
-        Click anywhere to see it! 💖💖
-      </div>
     </div>
 
     <!-- Step 1: Envelope -->
@@ -182,14 +172,24 @@
     const finalStep = document.getElementById("final");
     const end = document.getElementById("end");
 
+    const introMessages = [
+      "Haaiiiii my babieeee 😘💖",
+      "I have a little secret for you…",
+      "Something cute, something silly, and something just for YOU mere budheeee! 💕",
+      "Today is a very special day… but shhh 🤫💞",
+      "I’ve been planning this little surprise for my most handsome, cutest, and perfect Sahu 🥰💖",
+      "You make me laugh, smile, and feel warm and loved inside, even from miles away 🥹🩷",
+      "Are you ready for a tiny magical surprise? 💌✨",
+      "Click anywhere to see it! 💖💖"
+    ];
+
+    const surpriseText = "Guess what today is? 🤔🎉";
     const popupTexts = [
-      "Guess what today is? 🤔🎉",
       "IT'S DA BOYFRIENDS DAYYYY YAYYYYY!!!!! 😈😛",
       "Happy Boyfriend Dayyy TO MY BOYFIEEEEE!!!! 💕",
       "You’re the best thing ever happened to me 💐",
       "I lobe you endlessly, Sahu meri babygorl 😚"
     ];
-
     const questionsTexts = [
       "Do you know you’re the most perfect boyfriend ever? 🥰",
       "Will you let me be your annoying baddie forever? 😏😛",
@@ -200,32 +200,49 @@
     let popupIndex = 0;
     let questionIndex = 0;
 
-    // Step 0: Intro click
+    // Step 0: Show intro messages one by one
     introOverlay.onclick = () => {
       document.getElementById("intro").style.display = "none";
-      envelope.style.display = "block";
+      showIntroSequence();
     };
+
+    function showIntroSequence(index = 0){
+      if(index < introMessages.length){
+        popup.innerHTML = `<div class="popup-card">${introMessages[index]}</div>`;
+        popup.style.display = "block";
+        setTimeout(() => showIntroSequence(index+1), 1800);
+      } else {
+        popup.style.display = "none";
+        envelope.style.display = "block";
+      }
+    }
 
     // Step 1: Envelope click
     envelope.onclick = () => {
       envelope.style.display = "none";
-      showPopupSequence();
+      showEnvelopeSurprise();
     };
 
-    function showPopupSequence() {
-      if (popupIndex < popupTexts.length) {
+    function showEnvelopeSurprise(){
+      popup.innerHTML = `<div class="popup-card">${surpriseText}</div>`;
+      popup.style.display = "block";
+      setTimeout(showPopups, 2500);
+    }
+
+    function showPopups(){
+      if(popupIndex < popupTexts.length){
         popup.innerHTML = `<div class="popup-card">${popupTexts[popupIndex]}</div>`;
         popup.style.display = "block";
         popupIndex++;
-        setTimeout(showPopupSequence, 2000);
+        setTimeout(showPopups, 2000);
       } else {
         popup.style.display = "none";
         showQuestions();
       }
     }
 
-    function showQuestions() {
-      if (questionIndex < questionsTexts.length) {
+    function showQuestions(){
+      if(questionIndex < questionsTexts.length){
         questions.innerHTML = `
           <div class="popup-card">${questionsTexts[questionIndex]}</div>
           <br>
@@ -235,53 +252,51 @@
       } else {
         questions.style.display = "none";
         letter.style.display = "block";
-        // Start hearts and sparkles after last question
-        createHearts();
+        createHearts(); // floating hearts start only after questions
         createSparkles();
       }
     }
 
-    function nextQuestion() {
+    function nextQuestion(){
       questionIndex++;
       showQuestions();
     }
 
-    function showFinal() {
+    function showFinal(){
       letter.style.display = "none";
       finalStep.style.display = "block";
     }
 
-    function showEnd() {
+    function showEnd(){
       finalStep.style.display = "none";
       end.style.display = "block";
     }
 
-    function createHearts() {
+    function createHearts(){
       const colors = ["💖","😋","😘","💕"];
       setInterval(() => {
         const heart = document.createElement("div");
         heart.classList.add("heart");
-        heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 2 + 2) + "rem";
-        heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
+        heart.innerHTML = colors[Math.floor(Math.random()*colors.length)];
+        heart.style.left = Math.random()*100 + "vw";
+        heart.style.fontSize = (Math.random()*2+2) + "rem";
+        heart.style.animationDuration = (Math.random()*5+3) + "s";
         document.body.appendChild(heart);
-        setTimeout(() => { heart.remove(); }, 7000);
-      }, 150);
+        setTimeout(()=>heart.remove(),7000);
+      },150);
     }
 
-    function createSparkles() {
+    function createSparkles(){
       setInterval(() => {
         const sparkle = document.createElement("div");
         sparkle.classList.add("sparkle");
-        sparkle.style.left = Math.random() * 100 + "vw";
-        sparkle.style.top = Math.random() * 100 + "vh";
-        sparkle.style.animationDuration = (Math.random() * 2 + 1) + "s";
+        sparkle.style.left = Math.random()*100 + "vw";
+        sparkle.style.top = Math.random()*100 + "vh";
+        sparkle.style.animationDuration = (Math.random()*2+1) + "s";
         document.body.appendChild(sparkle);
-        setTimeout(() => { sparkle.remove(); }, 4000);
-      }, 300);
+        setTimeout(()=>sparkle.remove(),4000);
+      },300);
     }
-
   </script>
 </body>
-</html>
+  </html>
