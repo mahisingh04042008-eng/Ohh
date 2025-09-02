@@ -22,13 +22,9 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+    .container { text-align: center; z-index: 2; }
 
-    .container {
-      text-align: center;
-      z-index: 2;
-    }
-
-    /* ✉️ Envelope */
+    /* Envelope */
     .envelope {
       width: 220px;
       height: 150px;
@@ -65,22 +61,16 @@
       color: #ff4da6;
       box-shadow: 0 0 15px rgba(255,0,100,0.4);
     }
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
-    }
+    @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);} }
 
-    /* Popup style */
+    /* Popup */
     .popup, .questions, .letter, .final, .end {
       display: none;
       font-size: 1.4rem;
       margin-top: 20px;
       animation: fadeInUp 0.8s ease-in-out;
     }
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px) scale(0.9); }
-      to { opacity: 1; transform: translateY(0) scale(1); }
-    }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(30px) scale(0.9);} to{opacity:1;transform:translateY(0) scale(1);} }
     .popup-card {
       background: #fff;
       padding: 20px 35px;
@@ -111,46 +101,31 @@
     .btn:hover { background: #e60073; }
 
     /* Floating Hearts */
-    .heart {
-      position: fixed;
-      font-size: 2rem;
-      animation: float linear infinite;
-      z-index: 1;
-    }
-    @keyframes float {
-      from { transform: translateY(100vh) scale(0.8); opacity: 1; }
-      to { transform: translateY(-10vh) scale(1.6); opacity: 0; }
-    }
+    .heart { position: fixed; font-size: 2rem; animation: float linear infinite; z-index: 1; }
+    @keyframes float { from{transform:translateY(100vh) scale(0.8);opacity:1;} to{transform:translateY(-10vh) scale(1.6);opacity:0;} }
 
     /* Sparkles */
-    .sparkle {
-      position: fixed;
-      width: 6px;
-      height: 6px;
-      background: white;
-      border-radius: 50%;
-      opacity: 0.7;
-      animation: twinkle 2s infinite alternate;
-    }
-    @keyframes twinkle {
-      from { opacity: 0.2; transform: scale(0.8); }
-      to { opacity: 1; transform: scale(1.4); }
-    }
+    .sparkle { position: fixed; width: 6px; height: 6px; background: white; border-radius: 50%; opacity: 0.7; animation: twinkle 2s infinite alternate; }
+    @keyframes twinkle { from{opacity:0.2;transform:scale(0.8);} to{opacity:1;transform:scale(1.4);} }
+
+    /* Intro overlay */
+    #introOverlay { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:3; }
   </style>
 </head>
 <body>
   <div class="container">
 
-    <!-- Step 0: Longer Intro -->
+    <!-- Step 0: Intro -->
     <div id="intro" class="popup" style="display:block;">
+      <div id="introOverlay"></div>
       <div class="popup-card">
         Haaiiiii my babieeee 😘💖<br><br>
         I have a little secret for you…<br>
         Something cute, something silly, and something just for YOU mere budheeee!<br><br>
         Today is a very special day… but shhh 🤫💞<br>
         I’ve been planning this little surprise for my most handsome, cutest, and perfect Sahu 🥰💖<br>
-        You make me laugh, smile, and feel warm and loved , even from miles away 🥹🩷<br>
-        Are you ready for a tiny surprise? 💌✨<br><br>
+        You make me laugh, smile, and feel warm and loved inside, even from miles away 🥹🩷<br>
+        Are you ready for a tiny magical surprise? 💌✨<br><br>
         Click anywhere to see it! 💖💖
       </div>
     </div>
@@ -200,6 +175,7 @@
 
   <script>
     const intro = document.getElementById("intro");
+    const introOverlay = document.getElementById("introOverlay");
     const envelope = document.getElementById("envelope");
     const popup = document.getElementById("popup");
     const questions = document.getElementById("questions");
@@ -224,14 +200,14 @@
     let popupIndex = 0;
     let questionIndex = 0;
 
-    // Step 0: Click intro to show envelope + hearts
-    intro.onclick = () => {
+    // Step 0: Intro click
+    introOverlay.onclick = () => {
       intro.style.display = "none";
       envelope.style.display = "block";
       createIntroHearts();
     };
 
-    // Step 1: Click envelope to show "Guess what today is?" then popups
+    // Step 1: Envelope click
     envelope.onclick = () => {
       envelope.style.display = "none";
       showEnvelopeSurprise();
@@ -255,4 +231,10 @@
       }
     }
 
-    function
+    function showQuestions() {
+      if (questionIndex < questionsTexts.length) {
+        questions.innerHTML = `
+          <div class="popup-card">${questionsTexts[questionIndex]}</div>
+          <br>
+          <button class="btn" onclick="nextQuestion()">Yes 💖</button>
+        `;
