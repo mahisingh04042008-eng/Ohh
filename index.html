@@ -94,7 +94,7 @@
       border: none;
       cursor: pointer;
       margin: 12px;
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       transition: 0.3s;
       box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
@@ -166,7 +166,7 @@
     <div class="end" id="end">
       <h2>🌸 Happy Boyfriend Day, my love 💕✨</h2>
       <h3>Daddy lobes you endlessly 😘💖</h3>
-      <p style="margin-top:10px; font-size:1.3rem; color:#004080;">
+      <p style="margin-top:10px; font-size:1.2rem; color:#004080;">
         Thank you for being my cutest, funniest, and most loving Sahu! ♾️💖
       </p>
     </div>
@@ -200,7 +200,7 @@
     let popupIndex = 0;
     let questionIndex = 0;
 
-    // Step 0: Intro click
+    // Step 0: Click anywhere to hide intro and show envelope
     introOverlay.onclick = () => {
       intro.style.display = "none";
       envelope.style.display = "block";
@@ -213,16 +213,17 @@
     };
 
     function showEnvelopeSurprise() {
-      popupIndex = 0;
-      showPopupWithNumber();
+      popup.innerHTML = `<div class="popup-card">${surpriseText}</div>`;
+      popup.style.display = "block";
+      setTimeout(showPopups, 3000);
     }
 
-    function showPopupWithNumber() {
+    function showPopups() {
       if (popupIndex < popupTexts.length) {
-        popup.innerHTML = `<div class="popup-card"> ${popupIndex+1}️⃣ ${popupTexts[popupIndex]} </div>`;
+        popup.innerHTML = `<div class="popup-card">${popupTexts[popupIndex]}</div>`;
         popup.style.display = "block";
         popupIndex++;
-        setTimeout(showPopupWithNumber, 3500);
+        setTimeout(showPopups, 3000);
       } else {
         popup.style.display = "none";
         showQuestions();
@@ -232,15 +233,16 @@
     function showQuestions() {
       if (questionIndex < questionsTexts.length) {
         questions.innerHTML = `
-          <div class="popup-card"> ${questionIndex+1}️⃣ ${questionsTexts[questionIndex]} </div>
+          <div class="popup-card">${questionsTexts[questionIndex]}</div>
           <br>
           <button class="btn" onclick="nextQuestion()">Yes 💖</button>
         `;
         questions.style.display = "block";
       } else {
         questions.style.display = "none";
-        createHearts();
         letter.style.display = "block";
+        createHearts();
+        createSparkles();
       }
     }
 
@@ -271,6 +273,18 @@
         document.body.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 7000);
       }, 150);
+    }
+
+    function createSparkles() {
+      setInterval(() => {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("sparkle");
+        sparkle.style.left = Math.random() * 100 + "vw";
+        sparkle.style.top = Math.random() * 100 + "vh";
+        sparkle.style.animationDuration = (Math.random() * 2 + 1) + "s";
+        document.body.appendChild(sparkle);
+        setTimeout(() => { sparkle.remove(); }, 4000);
+      }, 300);
     }
   </script>
 </body>
