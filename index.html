@@ -66,21 +66,21 @@
     /* Popup */
     .popup, .questions, .letter, .final, .end {
       display: none;
-      font-size: 1.6rem;
+      font-size: 1.8rem; /* bigger */
       margin-top: 20px;
-      animation: fadeInUp 0.8s ease-in-out;
+      animation: fadeInUp 1s ease-in-out;
     }
     @keyframes fadeInUp { from{opacity:0;transform:translateY(30px) scale(0.9);} to{opacity:1;transform:translateY(0) scale(1);} }
     .popup-card {
       background: #fff;
       padding: 25px 40px;
       border-radius: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      box-shadow: 0 5px 25px rgba(0,0,0,0.15);
       display: inline-block;
       margin: 15px;
       color: #ff4da6;
       font-weight: bold;
-      font-size: 2rem;
+      font-size: 1.8rem;
       transform: scale(0.95);
       transition: 0.3s;
     }
@@ -89,12 +89,12 @@
     .btn {
       background: #ff4da6;
       color: white;
-      padding: 15px 30px;
+      padding: 18px 35px;
       border-radius: 30px;
       border: none;
       cursor: pointer;
       margin: 12px;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       transition: 0.3s;
       box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
@@ -114,7 +114,9 @@
   <div class="container">
 
     <!-- Step 0: Intro -->
-    <div id="intro" class="popup" style="display:block;"></div>
+    <div id="intro" class="popup" style="display:block;">
+      <div class="popup-card" id="introCard"></div>
+    </div>
 
     <!-- Step 1: Envelope -->
     <div id="envelope" class="envelope">
@@ -152,7 +154,7 @@
     <div class="end" id="end">
       <h2>🌸 Happy Boyfriend Day, my love 💕✨</h2>
       <h3>Daddy lobes you endlessly 😘💖</h3>
-      <p style="margin-top:10px; font-size:1.4rem; color:#ff4da6;">
+      <p style="margin-top:10px; font-size:1.3rem; color:#ff4da6;">
         Thank you for being my cutest, funniest, and most loving Sahu! ♾️💖
       </p>
     </div>
@@ -160,6 +162,8 @@
   </div>
 
   <script>
+    const introCard = document.getElementById("introCard");
+    const intro = document.getElementById("intro");
     const envelope = document.getElementById("envelope");
     const popup = document.getElementById("popup");
     const questions = document.getElementById("questions");
@@ -170,13 +174,34 @@
     const introMessages = [
       "Haaiiiii my babieeee 😘💖",
       "I have a little secret for you…",
-      "Something cute, something silly, and something just for YOU mere budheeee! 💕",
+      "Something cute, something silly, and something just for YOU mere budheeee!",
       "Today is a very special day… but shhh 🤫💞",
       "I’ve been planning this little surprise for my most handsome, cutest, and perfect Sahu 🥰💖",
       "You make me laugh, smile, and feel warm and loved inside, even from miles away 🥹🩷",
       "Are you ready for a tiny magical surprise? 💌✨",
       "Click anywhere to see it! 💖💖"
     ];
+
+    let currentIntro = 0;
+    let popupIndex = 0;
+    let questionIndex = 0;
+
+    function showIntroSequence() {
+      if (currentIntro < introMessages.length - 1) {
+        introCard.innerHTML = `<div class="popup-card">${introMessages[currentIntro]}</div>`;
+        currentIntro++;
+        setTimeout(showIntroSequence, 2500);
+      } else {
+        // last message stays, wait for click
+        introCard.innerHTML = `<div class="popup-card">${introMessages[currentIntro]}</div>`;
+        document.body.addEventListener('click', showEnvelopeOnClick, { once: true });
+      }
+    }
+
+    function showEnvelopeOnClick() {
+      intro.style.display = "none";
+      envelope.style.display = "block";
+    }
 
     const surpriseText = "Guess what today is? 🤔🎉";
     const popupTexts = [
@@ -192,43 +217,14 @@
       "Can I keep you forever and ever? 💖"
     ];
 
-    let popupIndex = 0;
-    let questionIndex = 0;
-
-    // Show intro messages automatically on page load
-    let currentIntro = 0;
-    const introDiv = document.getElementById("intro");
-    introDiv.style.display = "block";
-
-    function showIntroSequence(){
-      if(currentIntro < introMessages.length){
-        introDiv.innerHTML = `<div class="popup-card">${introMessages[currentIntro]}</div>`;
-        currentIntro++;
-        setTimeout(showIntroSequence, 2500); // show each message longer
-      } else {
-        introDiv.style.display = "none";
-        envelope.style.display = "block";
-      }
-    }
-
-    window.onload = () => {
-      showIntroSequence();
-    };
-
-    // Envelope click
-    envelope.onclick = () => {
-      envelope.style.display = "none";
-      showEnvelopeSurprise();
-    };
-
-    function showEnvelopeSurprise(){
+    function showEnvelopeSurprise() {
       popup.innerHTML = `<div class="popup-card">${surpriseText}</div>`;
       popup.style.display = "block";
       setTimeout(showPopups, 2500);
     }
 
-    function showPopups(){
-      if(popupIndex < popupTexts.length){
+    function showPopups() {
+      if (popupIndex < popupTexts.length) {
         popup.innerHTML = `<div class="popup-card">${popupTexts[popupIndex]}</div>`;
         popup.style.display = "block";
         popupIndex++;
@@ -239,8 +235,8 @@
       }
     }
 
-    function showQuestions(){
-      if(questionIndex < questionsTexts.length){
+    function showQuestions() {
+      if (questionIndex < questionsTexts.length) {
         questions.innerHTML = `
           <div class="popup-card">${questionsTexts[questionIndex]}</div>
           <br>
@@ -250,51 +246,55 @@
       } else {
         questions.style.display = "none";
         letter.style.display = "block";
-        createHearts();
-        createSparkles();
+        createHearts(); // hearts start only after last question
       }
     }
 
-    function nextQuestion(){
+    function nextQuestion() {
       questionIndex++;
       showQuestions();
     }
 
-    function showFinal(){
+    function showFinal() {
       letter.style.display = "none";
       finalStep.style.display = "block";
     }
 
-    function showEnd(){
+    function showEnd() {
       finalStep.style.display = "none";
       end.style.display = "block";
+      createHearts();
+      createSparkles();
     }
 
-    function createHearts(){
+    function createHearts() {
       const colors = ["💖","😋","😘","💕"];
       setInterval(() => {
         const heart = document.createElement("div");
         heart.classList.add("heart");
-        heart.innerHTML = colors[Math.floor(Math.random()*colors.length)];
-        heart.style.left = Math.random()*100 + "vw";
-        heart.style.fontSize = (Math.random()*2+2) + "rem";
-        heart.style.animationDuration = (Math.random()*5+3) + "s";
+        heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 2 + 2) + "rem";
+        heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
         document.body.appendChild(heart);
-        setTimeout(()=>heart.remove(),7000);
-      },150);
+        setTimeout(() => { heart.remove(); }, 7000);
+      }, 150);
     }
 
-    function createSparkles(){
+    function createSparkles() {
       setInterval(() => {
         const sparkle = document.createElement("div");
         sparkle.classList.add("sparkle");
-        sparkle.style.left = Math.random()*100 + "vw";
-        sparkle.style.top = Math.random()*100 + "vh";
-        sparkle.style.animationDuration = (Math.random()*2+1) + "s";
+        sparkle.style.left = Math.random() * 100 + "vw";
+        sparkle.style.top = Math.random() * 100 + "vh";
+        sparkle.style.animationDuration = (Math.random() * 2 + 1) + "s";
         document.body.appendChild(sparkle);
-        setTimeout(()=>sparkle.remove(),4000);
-      },300);
+        setTimeout(() => { sparkle.remove(); }, 4000);
+      }, 300);
     }
+
+    window.onload = showIntroSequence;
+    envelope.onclick = showEnvelopeSurprise;
 
   </script>
 </body>
