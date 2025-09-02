@@ -66,21 +66,21 @@
     /* Popup */
     .popup, .questions, .letter, .final, .end {
       display: none;
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       margin-top: 20px;
       animation: fadeInUp 0.8s ease-in-out;
     }
     @keyframes fadeInUp { from{opacity:0;transform:translateY(30px) scale(0.9);} to{opacity:1;transform:translateY(0) scale(1);} }
     .popup-card {
       background: #fff;
-      padding: 20px 35px;
+      padding: 25px 40px;
       border-radius: 25px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.15);
       display: inline-block;
       margin: 15px;
       color: #ff4da6;
       font-weight: bold;
-      font-size: 1.6rem;
+      font-size: 2rem;
       transform: scale(0.95);
       transition: 0.3s;
     }
@@ -108,17 +108,13 @@
     .sparkle { position: fixed; width: 6px; height: 6px; background: white; border-radius: 50%; opacity: 0.7; animation: twinkle 2s infinite alternate; }
     @keyframes twinkle { from{opacity:0.2;transform:scale(0.8);} to{opacity:1;transform:scale(1.4);} }
 
-    /* Intro overlay */
-    #introOverlay { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:3; }
   </style>
 </head>
 <body>
   <div class="container">
 
     <!-- Step 0: Intro -->
-    <div id="intro" class="popup" style="display:block;">
-      <div id="introOverlay"></div>
-    </div>
+    <div id="intro" class="popup" style="display:block;"></div>
 
     <!-- Step 1: Envelope -->
     <div id="envelope" class="envelope">
@@ -156,7 +152,7 @@
     <div class="end" id="end">
       <h2>🌸 Happy Boyfriend Day, my love 💕✨</h2>
       <h3>Daddy lobes you endlessly 😘💖</h3>
-      <p style="margin-top:10px; font-size:1.2rem; color:#ff4da6;">
+      <p style="margin-top:10px; font-size:1.4rem; color:#ff4da6;">
         Thank you for being my cutest, funniest, and most loving Sahu! ♾️💖
       </p>
     </div>
@@ -164,7 +160,6 @@
   </div>
 
   <script>
-    const introOverlay = document.getElementById("introOverlay");
     const envelope = document.getElementById("envelope");
     const popup = document.getElementById("popup");
     const questions = document.getElementById("questions");
@@ -200,24 +195,27 @@
     let popupIndex = 0;
     let questionIndex = 0;
 
-    // Step 0: Show intro messages one by one
-    introOverlay.onclick = () => {
-      document.getElementById("intro").style.display = "none";
-      showIntroSequence();
-    };
+    // Show intro messages automatically on page load
+    let currentIntro = 0;
+    const introDiv = document.getElementById("intro");
+    introDiv.style.display = "block";
 
-    function showIntroSequence(index = 0){
-      if(index < introMessages.length){
-        popup.innerHTML = `<div class="popup-card">${introMessages[index]}</div>`;
-        popup.style.display = "block";
-        setTimeout(() => showIntroSequence(index+1), 1800);
+    function showIntroSequence(){
+      if(currentIntro < introMessages.length){
+        introDiv.innerHTML = `<div class="popup-card">${introMessages[currentIntro]}</div>`;
+        currentIntro++;
+        setTimeout(showIntroSequence, 2500); // show each message longer
       } else {
-        popup.style.display = "none";
+        introDiv.style.display = "none";
         envelope.style.display = "block";
       }
     }
 
-    // Step 1: Envelope click
+    window.onload = () => {
+      showIntroSequence();
+    };
+
+    // Envelope click
     envelope.onclick = () => {
       envelope.style.display = "none";
       showEnvelopeSurprise();
@@ -252,7 +250,7 @@
       } else {
         questions.style.display = "none";
         letter.style.display = "block";
-        createHearts(); // floating hearts start only after questions
+        createHearts();
         createSparkles();
       }
     }
@@ -297,6 +295,7 @@
         setTimeout(()=>sparkle.remove(),4000);
       },300);
     }
+
   </script>
 </body>
-  </html>
+</html>
