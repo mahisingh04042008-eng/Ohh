@@ -28,7 +28,7 @@
       z-index: 2;
     }
 
-    /* ✉️ Prettier Envelope */
+    /* ✉️ Envelope */
     .envelope {
       width: 220px;
       height: 150px;
@@ -39,7 +39,7 @@
       border-radius: 12px;
       animation: bounce 1.5s infinite;
       overflow: hidden;
-      display: none; /* initially hidden */
+      display: none;
     }
     .envelope:before {
       content: "";
@@ -94,9 +94,7 @@
       transform: scale(0.95);
       transition: 0.3s;
     }
-    .popup-card:hover {
-      transform: scale(1.05);
-    }
+    .popup-card:hover { transform: scale(1.05); }
 
     .btn {
       background: #ff4da6;
@@ -110,9 +108,7 @@
       transition: 0.3s;
       box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
-    .btn:hover {
-      background: #e60073;
-    }
+    .btn:hover { background: #e60073; }
 
     /* Floating Hearts */
     .heart {
@@ -145,15 +141,17 @@
 <body>
   <div class="container">
 
-    <!-- Step 0: Intro -->
+    <!-- Step 0: Longer Intro -->
     <div id="intro" class="popup" style="display:block;">
       <div class="popup-card">
         Haaiiiii my babieeee 😘💖<br><br>
         I have a little secret for you…<br>
         Something cute, something silly, and something just for YOU mere budheeee!<br><br>
-        I hope you’re ready for a surprise because today is all about you… my most handsome, cutest, most perfect Sahu 🥰💖<br>
-        Are you excited? 👀💞<br>
-        Click anywhere to see it! 💌
+        Today is a very special day… but shhh 🤫💞<br>
+        I’ve been planning this little surprise for my most handsome, cutest, and perfect Sahu 🥰💖<br>
+        You make me laugh, smile, and feel warm and loved , even from miles away 🥹🩷<br>
+        Are you ready for a tiny surprise? 💌✨<br><br>
+        Click anywhere to see it! 💖💖
       </div>
     </div>
 
@@ -226,10 +224,11 @@
     let popupIndex = 0;
     let questionIndex = 0;
 
-    // Step 0: Click intro to show envelope
+    // Step 0: Click intro to show envelope + hearts
     intro.onclick = () => {
       intro.style.display = "none";
       envelope.style.display = "block";
+      createIntroHearts();
     };
 
     // Step 1: Click envelope to show "Guess what today is?" then popups
@@ -256,62 +255,4 @@
       }
     }
 
-    function showQuestions() {
-      if (questionIndex < questionsTexts.length) {
-        questions.innerHTML = `
-          <div class="popup-card">${questionsTexts[questionIndex]}</div>
-          <br>
-          <button class="btn" onclick="nextQuestion()">Yes 💖</button>
-        `;
-        questions.style.display = "block";
-      } else {
-        questions.style.display = "none";
-        letter.style.display = "block";
-      }
-    }
-
-    function nextQuestion() {
-      questionIndex++;
-      showQuestions();
-    }
-
-    function showFinal() {
-      letter.style.display = "none";
-      finalStep.style.display = "block";
-    }
-
-    function showEnd() {
-      finalStep.style.display = "none";
-      end.style.display = "block";
-      createHearts();
-      createSparkles();
-    }
-
-    function createHearts() {
-      const colors = ["💖","😋","😘","💕"];
-      setInterval(() => {
-        const heart = document.createElement("div");
-        heart.classList.add("heart");
-        heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
-        heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 2 + 2) + "rem";
-        heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
-        document.body.appendChild(heart);
-        setTimeout(() => { heart.remove(); }, 7000);
-      }, 150);
-    }
-
-    function createSparkles() {
-      setInterval(() => {
-        const sparkle = document.createElement("div");
-        sparkle.classList.add("sparkle");
-        sparkle.style.left = Math.random() * 100 + "vw";
-        sparkle.style.top = Math.random() * 100 + "vh";
-        sparkle.style.animationDuration = (Math.random() * 2 + 1) + "s";
-        document.body.appendChild(sparkle);
-        setTimeout(() => { sparkle.remove(); }, 4000);
-      }, 300);
-    }
-  </script>
-</body>
-  </html>
+    function
