@@ -30,27 +30,28 @@
 
     /* ✉️ Prettier Envelope */
     .envelope {
-      width: 220px; /* increased size */
-      height: 150px; /* increased size */
+      width: 220px;
+      height: 150px;
       background: #ff4da6;
       position: relative;
       margin: auto;
       cursor: pointer;
-      border-radius: 12px; /* slightly bigger radius */
+      border-radius: 12px;
       animation: bounce 1.5s infinite;
       overflow: hidden;
+      display: none; /* initially hidden */
     }
     .envelope:before {
       content: "";
       position: absolute;
       top: 0;
       left: 0;
-      border-left: 110px solid transparent; /* adjusted for bigger size */
-      border-right: 110px solid transparent; /* adjusted for bigger size */
-      border-bottom: 75px solid #ff99cc; /* adjusted for bigger size */
+      border-left: 110px solid transparent;
+      border-right: 110px solid transparent;
+      border-bottom: 75px solid #ff99cc;
     }
     .envelope .seal {
-      width: 55px; /* bigger seal */
+      width: 55px;
       height: 55px;
       background: #fff;
       border-radius: 50%;
@@ -60,7 +61,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 2rem; /* bigger emoji */
+      font-size: 2rem;
       color: #ff4da6;
       box-shadow: 0 0 15px rgba(255,0,100,0.4);
     }
@@ -82,14 +83,14 @@
     }
     .popup-card {
       background: #fff;
-      padding: 20px 35px; /* bigger padding */
-      border-radius: 25px; /* bigger radius */
+      padding: 20px 35px;
+      border-radius: 25px;
       box-shadow: 0 5px 20px rgba(0,0,0,0.15);
       display: inline-block;
       margin: 15px;
       color: #ff4da6;
       font-weight: bold;
-      font-size: 1.6rem; /* larger text for mobile */
+      font-size: 1.6rem;
       transform: scale(0.95);
       transition: 0.3s;
     }
@@ -100,12 +101,12 @@
     .btn {
       background: #ff4da6;
       color: white;
-      padding: 15px 30px; /* bigger button */
+      padding: 15px 30px;
       border-radius: 30px;
       border: none;
       cursor: pointer;
       margin: 12px;
-      font-size: 1.2rem; /* bigger font for mobile */
+      font-size: 1.2rem;
       transition: 0.3s;
       box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
@@ -116,7 +117,7 @@
     /* Floating Hearts */
     .heart {
       position: fixed;
-      font-size: 2rem; /* bigger hearts */
+      font-size: 2rem;
       animation: float linear infinite;
       z-index: 1;
     }
@@ -128,7 +129,7 @@
     /* Sparkles */
     .sparkle {
       position: fixed;
-      width: 6px; /* slightly bigger sparkles */
+      width: 6px;
       height: 6px;
       background: white;
       border-radius: 50%;
@@ -143,18 +144,31 @@
 </head>
 <body>
   <div class="container">
-    <!-- Step 1 -->
+
+    <!-- Step 0: Intro -->
+    <div id="intro" class="popup" style="display:block;">
+      <div class="popup-card">
+        Hiiiii my babyyy 😘💖<br><br>
+        I have a little secret for you…<br>
+        Something cute, something silly, and something just for YOU!<br><br>
+        I hope you’re ready for a surprise because today is all about you… my most handsome, cutest, most perfect Sahu 😍💖<br>
+        Are you excited? 👀💞<br>
+        Click anywhere to see it! 💌
+      </div>
+    </div>
+
+    <!-- Step 1: Envelope -->
     <div id="envelope" class="envelope">
       <div class="seal">💖</div>
     </div>
 
-    <!-- Step 2 -->
+    <!-- Step 2: Popup messages -->
     <div id="popup"></div>
 
-    <!-- Step 3 -->
+    <!-- Step 3: Questions -->
     <div id="questions"></div>
 
-    <!-- Step 4 -->
+    <!-- Step 4: Letter -->
     <div class="letter" id="letter">
       <p>
         Happy Boyfriend Day, my love 😚💕. I still can’t believe how lucky I am to have you!!!!!
@@ -167,7 +181,7 @@
       <button class="btn" onclick="showFinal()">Next ➡️</button>
     </div>
 
-    <!-- Step 5 -->
+    <!-- Step 5: Final Question -->
     <div class="final" id="final">
       <p>💍 Will you be my one and only, forever and ever? 💖</p>
       <button class="btn" onclick="showEnd()">Yes, foreverrr 😘</button>
@@ -175,14 +189,27 @@
       <button class="btn" onclick="showEnd()">No escape, I’m stuck with you 😏😈</button>
     </div>
 
-    <!-- Step 6 -->
+    <!-- Step 6: End -->
     <div class="end" id="end">
-      <h2>🌸 HAPPY PATI DIWAS AGAIN SAHU 💕✨</h2>
-      <h3>Daddy lobes you endlessly 💖</h3>
+      <h2>🌸 SURPRISE!!! Happy Boyfriend Day, my love 💕✨</h2>
+      <h3>Daddy lobes you endlessly 😘💖</h3>
+      <p style="margin-top:10px; font-size:1.2rem; color:#ff4da6;">
+        Thank you for being my cutest, funniest, and most loving Sahu! ♾️💖
+      </p>
     </div>
+    
   </div>
 
   <script>
+    const intro = document.getElementById("intro");
+    const envelope = document.getElementById("envelope");
+    const popup = document.getElementById("popup");
+    const questions = document.getElementById("questions");
+    const letter = document.getElementById("letter");
+    const finalStep = document.getElementById("final");
+    const end = document.getElementById("end");
+
+    const surpriseText = "Guess what today is? 🤔🎉";
     const popupTexts = [
       "Haiiiiii my handsomee 😘",
       "Happy Boyfriend Dayyy!!!! 💕",
@@ -199,17 +226,23 @@
     let popupIndex = 0;
     let questionIndex = 0;
 
-    const envelope = document.getElementById("envelope");
-    const popup = document.getElementById("popup");
-    const questions = document.getElementById("questions");
-    const letter = document.getElementById("letter");
-    const finalStep = document.getElementById("final");
-    const end = document.getElementById("end");
+    // Step 0: Click intro to show envelope
+    intro.onclick = () => {
+      intro.style.display = "none";
+      envelope.style.display = "block";
+    };
 
+    // Step 1: Click envelope to show "Guess what today is?" then popups
     envelope.onclick = () => {
       envelope.style.display = "none";
-      showPopups();
+      showEnvelopeSurprise();
     };
+
+    function showEnvelopeSurprise() {
+      popup.innerHTML = `<div class="popup-card">${surpriseText}</div>`;
+      popup.style.display = "block";
+      setTimeout(showPopups, 2500);
+    }
 
     function showPopups() {
       if (popupIndex < popupTexts.length) {
@@ -261,7 +294,7 @@
         heart.classList.add("heart");
         heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
         heart.style.left = Math.random() * 100 + "vw";
-        heart.style.fontSize = (Math.random() * 2 + 2) + "rem"; // bigger hearts
+        heart.style.fontSize = (Math.random() * 2 + 2) + "rem";
         heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
         document.body.appendChild(heart);
         setTimeout(() => { heart.remove(); }, 7000);
@@ -281,4 +314,4 @@
     }
   </script>
 </body>
-</html>
+  </html>
