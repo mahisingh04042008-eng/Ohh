@@ -22,7 +22,6 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
-
     .container { text-align: center; z-index: 2; }
 
     /* Envelope */
@@ -64,31 +63,52 @@
     }
     @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);} }
 
-    /* Popup and cards */
-    .popup, .questions, .letter, .final, .end { display: none; font-size:1.4rem; margin-top:20px; animation:fadeInUp 0.8s ease-in-out; }
-    @keyframes fadeInUp { from{opacity:0; transform:translateY(30px) scale(0.9);} to{opacity:1; transform:translateY(0) scale(1);} }
-    .popup-card {
-      background:#fff; padding:20px 35px; border-radius:25px;
-      box-shadow:0 5px 20px rgba(0,0,0,0.15); display:inline-block;
-      margin:15px; color:#ff4da6; font-weight:bold; font-size:1.6rem;
-      transform:scale(0.95); transition:0.3s; cursor:pointer;
+    /* Popup */
+    .popup, .questions, .letter, .final, .end {
+      display: none;
+      font-size: 1.4rem;
+      margin-top: 20px;
+      animation: fadeInUp 0.8s ease-in-out;
     }
-    .popup-card:hover { transform:scale(1.05); }
+    @keyframes fadeInUp { from{opacity:0;transform:translateY(30px) scale(0.9);} to{opacity:1;transform:translateY(0) scale(1);} }
+    .popup-card {
+      background: #fff;
+      padding: 20px 35px;
+      border-radius: 25px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+      display: inline-block;
+      margin: 15px;
+      color: #ff4da6;
+      font-weight: bold;
+      font-size: 1.6rem;
+      transform: scale(0.95);
+      transition: 0.3s;
+    }
+    .popup-card:hover { transform: scale(1.05); }
 
     .btn {
-      background:#ff4da6; color:white; padding:15px 30px; border-radius:30px;
-      border:none; cursor:pointer; margin:12px; font-size:1.2rem; transition:0.3s;
-      box-shadow:0 3px 10px rgba(0,0,0,0.2);
+      background: #ff4da6;
+      color: white;
+      padding: 15px 30px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      margin: 12px;
+      font-size: 1.2rem;
+      transition: 0.3s;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
     }
-    .btn:hover { background:#e60073; }
+    .btn:hover { background: #e60073; }
 
-    /* Hearts and sparkles */
-    .heart { position:fixed; font-size:2rem; animation:float linear infinite; z-index:1; }
+    /* Floating Hearts */
+    .heart { position: fixed; font-size: 2rem; animation: float linear infinite; z-index: 1; }
     @keyframes float { from{transform:translateY(100vh) scale(0.8);opacity:1;} to{transform:translateY(-10vh) scale(1.6);opacity:0;} }
-    .sparkle { position:fixed; width:6px; height:6px; background:white; border-radius:50%; opacity:0.7; animation:twinkle 2s infinite alternate; }
+
+    /* Sparkles */
+    .sparkle { position: fixed; width: 6px; height: 6px; background: white; border-radius: 50%; opacity: 0.7; animation: twinkle 2s infinite alternate; }
     @keyframes twinkle { from{opacity:0.2;transform:scale(0.8);} to{opacity:1;transform:scale(1.4);} }
 
-    /* Overlay for intro click */
+    /* Intro overlay */
     #introOverlay { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:3; }
   </style>
 </head>
@@ -115,7 +135,7 @@
       <div class="seal">💖</div>
     </div>
 
-    <!-- Step 2: Popups -->
+    <!-- Step 2: Popup messages -->
     <div id="popup"></div>
 
     <!-- Step 3: Questions -->
@@ -134,7 +154,7 @@
       <button class="btn" onclick="showFinal()">Next ➡️</button>
     </div>
 
-    <!-- Step 5: Final -->
+    <!-- Step 5: Final Question -->
     <div class="final" id="final">
       <p>💍 Will you be my one and only, forever and ever? 💖</p>
       <button class="btn" onclick="showEnd()">Yes, foreverrr 😘</button>
@@ -150,11 +170,10 @@
         Thank you for being my cutest, funniest, and most loving Sahu! ♾️💖
       </p>
     </div>
-
+    
   </div>
 
   <script>
-    const intro = document.getElementById("intro");
     const introOverlay = document.getElementById("introOverlay");
     const envelope = document.getElementById("envelope");
     const popup = document.getElementById("popup");
@@ -163,13 +182,14 @@
     const finalStep = document.getElementById("final");
     const end = document.getElementById("end");
 
-    const surpriseText = "Guess what today is? 🤔🎉";
     const popupTexts = [
+      "Guess what today is? 🤔🎉",
       "IT'S DA BOYFRIENDS DAYYYY YAYYYYY!!!!! 😈😛",
       "Happy Boyfriend Dayyy TO MY BOYFIEEEEE!!!! 💕",
       "You’re the best thing ever happened to me 💐",
       "I lobe you endlessly, Sahu meri babygorl 😚"
     ];
+
     const questionsTexts = [
       "Do you know you’re the most perfect boyfriend ever? 🥰",
       "Will you let me be your annoying baddie forever? 😏😛",
@@ -180,27 +200,24 @@
     let popupIndex = 0;
     let questionIndex = 0;
 
-    // Intro click
+    // Step 0: Intro click
     introOverlay.onclick = () => {
-      intro.style.display = "none";
+      document.getElementById("intro").style.display = "none";
       envelope.style.display = "block";
-      createHearts();
     };
 
-    // Envelope click
+    // Step 1: Envelope click
     envelope.onclick = () => {
       envelope.style.display = "none";
-      popup.innerHTML = `<div class="popup-card">${surpriseText}</div>`;
-      popup.style.display = "block";
-      setTimeout(showPopups, 2500);
+      showPopupSequence();
     };
 
-    function showPopups() {
+    function showPopupSequence() {
       if (popupIndex < popupTexts.length) {
         popup.innerHTML = `<div class="popup-card">${popupTexts[popupIndex]}</div>`;
         popup.style.display = "block";
         popupIndex++;
-        setTimeout(showPopups, 2000);
+        setTimeout(showPopupSequence, 2000);
       } else {
         popup.style.display = "none";
         showQuestions();
@@ -210,13 +227,17 @@
     function showQuestions() {
       if (questionIndex < questionsTexts.length) {
         questions.innerHTML = `
-          <div class="popup-card">${questionsTexts[questionIndex]}</div><br>
+          <div class="popup-card">${questionsTexts[questionIndex]}</div>
+          <br>
           <button class="btn" onclick="nextQuestion()">Yes 💖</button>
         `;
         questions.style.display = "block";
       } else {
         questions.style.display = "none";
         letter.style.display = "block";
+        // Start hearts and sparkles after last question
+        createHearts();
+        createSparkles();
       }
     }
 
@@ -233,8 +254,6 @@
     function showEnd() {
       finalStep.style.display = "none";
       end.style.display = "block";
-      createHearts();
-      createSparkles();
     }
 
     function createHearts() {
@@ -247,7 +266,7 @@
         heart.style.fontSize = (Math.random() * 2 + 2) + "rem";
         heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
         document.body.appendChild(heart);
-        setTimeout(() => heart.remove(), 7000);
+        setTimeout(() => { heart.remove(); }, 7000);
       }, 150);
     }
 
@@ -259,9 +278,10 @@
         sparkle.style.top = Math.random() * 100 + "vh";
         sparkle.style.animationDuration = (Math.random() * 2 + 1) + "s";
         document.body.appendChild(sparkle);
-        setTimeout(() => sparkle.remove(), 4000);
+        setTimeout(() => { sparkle.remove(); }, 4000);
       }, 300);
     }
+
   </script>
 </body>
   </html>
