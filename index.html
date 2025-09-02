@@ -22,6 +22,7 @@
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
+
     .container { text-align: center; z-index: 2; }
 
     /* Envelope */
@@ -63,52 +64,31 @@
     }
     @keyframes bounce { 0%,100%{transform:translateY(0);}50%{transform:translateY(-15px);} }
 
-    /* Popup */
-    .popup, .questions, .letter, .final, .end {
-      display: none;
-      font-size: 1.4rem;
-      margin-top: 20px;
-      animation: fadeInUp 0.8s ease-in-out;
-    }
-    @keyframes fadeInUp { from{opacity:0;transform:translateY(30px) scale(0.9);} to{opacity:1;transform:translateY(0) scale(1);} }
+    /* Popup and cards */
+    .popup, .questions, .letter, .final, .end { display: none; font-size:1.4rem; margin-top:20px; animation:fadeInUp 0.8s ease-in-out; }
+    @keyframes fadeInUp { from{opacity:0; transform:translateY(30px) scale(0.9);} to{opacity:1; transform:translateY(0) scale(1);} }
     .popup-card {
-      background: #fff;
-      padding: 20px 35px;
-      border-radius: 25px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-      display: inline-block;
-      margin: 15px;
-      color: #ff4da6;
-      font-weight: bold;
-      font-size: 1.6rem;
-      transform: scale(0.95);
-      transition: 0.3s;
+      background:#fff; padding:20px 35px; border-radius:25px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.15); display:inline-block;
+      margin:15px; color:#ff4da6; font-weight:bold; font-size:1.6rem;
+      transform:scale(0.95); transition:0.3s; cursor:pointer;
     }
-    .popup-card:hover { transform: scale(1.05); }
+    .popup-card:hover { transform:scale(1.05); }
 
     .btn {
-      background: #ff4da6;
-      color: white;
-      padding: 15px 30px;
-      border-radius: 30px;
-      border: none;
-      cursor: pointer;
-      margin: 12px;
-      font-size: 1.2rem;
-      transition: 0.3s;
-      box-shadow: 0 3px 10px rgba(0,0,0,0.2);
+      background:#ff4da6; color:white; padding:15px 30px; border-radius:30px;
+      border:none; cursor:pointer; margin:12px; font-size:1.2rem; transition:0.3s;
+      box-shadow:0 3px 10px rgba(0,0,0,0.2);
     }
-    .btn:hover { background: #e60073; }
+    .btn:hover { background:#e60073; }
 
-    /* Floating Hearts */
-    .heart { position: fixed; font-size: 2rem; animation: float linear infinite; z-index: 1; }
+    /* Hearts and sparkles */
+    .heart { position:fixed; font-size:2rem; animation:float linear infinite; z-index:1; }
     @keyframes float { from{transform:translateY(100vh) scale(0.8);opacity:1;} to{transform:translateY(-10vh) scale(1.6);opacity:0;} }
-
-    /* Sparkles */
-    .sparkle { position: fixed; width: 6px; height: 6px; background: white; border-radius: 50%; opacity: 0.7; animation: twinkle 2s infinite alternate; }
+    .sparkle { position:fixed; width:6px; height:6px; background:white; border-radius:50%; opacity:0.7; animation:twinkle 2s infinite alternate; }
     @keyframes twinkle { from{opacity:0.2;transform:scale(0.8);} to{opacity:1;transform:scale(1.4);} }
 
-    /* Intro overlay */
+    /* Overlay for intro click */
     #introOverlay { position:absolute; top:0; left:0; width:100%; height:100%; cursor:pointer; z-index:3; }
   </style>
 </head>
@@ -135,7 +115,7 @@
       <div class="seal">💖</div>
     </div>
 
-    <!-- Step 2: Popup messages -->
+    <!-- Step 2: Popups -->
     <div id="popup"></div>
 
     <!-- Step 3: Questions -->
@@ -154,7 +134,7 @@
       <button class="btn" onclick="showFinal()">Next ➡️</button>
     </div>
 
-    <!-- Step 5: Final Question -->
+    <!-- Step 5: Final -->
     <div class="final" id="final">
       <p>💍 Will you be my one and only, forever and ever? 💖</p>
       <button class="btn" onclick="showEnd()">Yes, foreverrr 😘</button>
@@ -170,7 +150,7 @@
         Thank you for being my cutest, funniest, and most loving Sahu! ♾️💖
       </p>
     </div>
-    
+
   </div>
 
   <script>
@@ -200,24 +180,20 @@
     let popupIndex = 0;
     let questionIndex = 0;
 
-    // Step 0: Intro click
+    // Intro click
     introOverlay.onclick = () => {
       intro.style.display = "none";
       envelope.style.display = "block";
-      createIntroHearts();
+      createHearts();
     };
 
-    // Step 1: Envelope click
+    // Envelope click
     envelope.onclick = () => {
       envelope.style.display = "none";
-      showEnvelopeSurprise();
-    };
-
-    function showEnvelopeSurprise() {
       popup.innerHTML = `<div class="popup-card">${surpriseText}</div>`;
       popup.style.display = "block";
       setTimeout(showPopups, 2500);
-    }
+    };
 
     function showPopups() {
       if (popupIndex < popupTexts.length) {
@@ -234,7 +210,58 @@
     function showQuestions() {
       if (questionIndex < questionsTexts.length) {
         questions.innerHTML = `
-          <div class="popup-card">${questionsTexts[questionIndex]}</div>
-          <br>
+          <div class="popup-card">${questionsTexts[questionIndex]}</div><br>
           <button class="btn" onclick="nextQuestion()">Yes 💖</button>
         `;
+        questions.style.display = "block";
+      } else {
+        questions.style.display = "none";
+        letter.style.display = "block";
+      }
+    }
+
+    function nextQuestion() {
+      questionIndex++;
+      showQuestions();
+    }
+
+    function showFinal() {
+      letter.style.display = "none";
+      finalStep.style.display = "block";
+    }
+
+    function showEnd() {
+      finalStep.style.display = "none";
+      end.style.display = "block";
+      createHearts();
+      createSparkles();
+    }
+
+    function createHearts() {
+      const colors = ["💖","😋","😘","💕"];
+      setInterval(() => {
+        const heart = document.createElement("div");
+        heart.classList.add("heart");
+        heart.innerHTML = colors[Math.floor(Math.random() * colors.length)];
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.fontSize = (Math.random() * 2 + 2) + "rem";
+        heart.style.animationDuration = (Math.random() * 5 + 3) + "s";
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 7000);
+      }, 150);
+    }
+
+    function createSparkles() {
+      setInterval(() => {
+        const sparkle = document.createElement("div");
+        sparkle.classList.add("sparkle");
+        sparkle.style.left = Math.random() * 100 + "vw";
+        sparkle.style.top = Math.random() * 100 + "vh";
+        sparkle.style.animationDuration = (Math.random() * 2 + 1) + "s";
+        document.body.appendChild(sparkle);
+        setTimeout(() => sparkle.remove(), 4000);
+      }, 300);
+    }
+  </script>
+</body>
+  </html>
